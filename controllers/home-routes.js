@@ -4,32 +4,26 @@ const { Post, User, Comment} = require('../models');
 
 // get all posts for homepage
 router.get('/', (req, res) => {
-  console.log('homepage');
+  console.log('======================');
   Post.findAll({
     attributes: [
       'id',
-      'user__id',
+      'user_id',
       'title',
-      'body'
+      'created_at'
     ],
     include: [
-        {
-            model: User,
-            as: 'user',
-            attributes: ['username']
-          },
       {
         model: Comment,
-        as: 'comments',
-        attributes: [
-        'id',
-        'comment_text',
-        'user__id',
-    ],
+        attributes: [  'id', 'comment_text', 'post_id', 'user_id', 'created_at'],
         include: {
           model: User,
           attributes: ['username']
         }
+      },
+      {
+        model: User,
+        attributes: ['username']
       }
     ]
   })
@@ -53,24 +47,24 @@ router.get('/post/:id', (req, res) => {
     where: {
       id: req.params.id
     },
+    attributes: [
+      'id',
+          'user_id',
+          'title',
+          'created_at'
+    ],
     include: [
-        {
-            model: User,
-            as: 'user',
-            attributes: ['username']
-          },
       {
         model: Comment,
-        as: 'comments',
-        attributes: [
-        'id',
-        'comment_text',
-        'user__id',
-    ],
+        attributes: [ 'id', 'comment_text', 'post_id', 'user_id', 'created_at'],
         include: {
           model: User,
           attributes: ['username']
         }
+      },
+      {
+        model: User,
+        attributes: ['username']
       }
     ]
   })
